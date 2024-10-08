@@ -1,29 +1,27 @@
-# Read Me First
-The following was discovered as part of building this project:
+### HttpLoggerStarter - Spring Boot Starter для логирования HTTP запросов
 
-* The original package name 'com.example.dz-kafka' is invalid and this project uses 'com.example.dz_kafka' instead.
+### Применение:
 
-# Getting Started
+Система мониторинга отслеживает работу приложения (cpu, memory) и сохраняет данные в БД.
 
-### Reference Documentation
-For further reference, please consider the following sections:
+KafkaProducerService - запускается по расписанию, собирает занные и отправляет в кафку в metrics-topic
 
-* [Official Apache Maven documentation](https://maven.apache.org/guides/index.html)
-* [Spring Boot Maven Plugin Reference Guide](https://docs.spring.io/spring-boot/3.3.4/maven-plugin)
-* [Create an OCI image](https://docs.spring.io/spring-boot/3.3.4/maven-plugin/build-image.html)
-* [Spring Web](https://docs.spring.io/spring-boot/docs/3.3.4/reference/htmlsingle/index.html#web)
+отправка метрик осуществляется по расписанию раз в минуту.
 
-### Guides
-The following guides illustrate how to use some features concretely:
+для получения данных о приложении исп. spring-actuator
 
-* [Building a RESTful Web Service](https://spring.io/guides/gs/rest-service/)
-* [Serving Web Content with Spring MVC](https://spring.io/guides/gs/serving-web-content/)
-* [Building REST services with Spring](https://spring.io/guides/tutorials/rest/)
+для доступа к данным исп. FiegnClient
 
-### Maven Parent overrides
+KafkaConsumerService - получает данные из топика, сохраняет их в бд
 
-Due to Maven's design, elements are inherited from the parent POM to the project POM.
-While most of the inheritance is fine, it also inherits unwanted elements like `<license>` and `<developers>` from the parent.
-To prevent this, the project POM contains empty overrides for these elements.
-If you manually switch to a different parent and actually want the inheritance, you need to remove those overrides.
+контроллер:
+
+POST http://localhost:8081/v1/rest/send - возвращает пример метрик отправленный в кафку
+
+GET http://localhost:8081/v1/rest/metrics - данные о всех метриках 
+
+GET http://localhost:8081/v1/rest/metric/{id} - данные о метрике по id
+
+### 🏄 Стек:
+Java 21, SpringBoot 3, Maven, Hibernate, Kafka, Actuator, Openfeign, БД PostgreSQL.
 

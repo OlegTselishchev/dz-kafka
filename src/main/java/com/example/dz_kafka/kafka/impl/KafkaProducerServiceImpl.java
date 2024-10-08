@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -22,6 +23,7 @@ public class KafkaProducerServiceImpl implements KafkaProducerService {
 
 
     @Override
+    @Scheduled(fixedRate = 60000, initialDelay = 60000)
     public void sendMetrics() {
         try {
             MetricKafkaDTO metric = metricService.getMetric();
